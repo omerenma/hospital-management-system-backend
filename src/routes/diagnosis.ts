@@ -1,8 +1,10 @@
 import {Router} from 'express'
-import { createDiagnosis } from '../controller/Diagnosis';
-
+import { createDiagnosis, getPatientDiagnosis , updeDiagnosis} from '../controller/Diagnosis';
+import { verifyToken } from '../middlewares/verifyTokens';
 const router = Router();
 
-router.post('/', createDiagnosis)
+router.post('/', verifyToken, createDiagnosis)
+router.get('/diagnosis', verifyToken ,getPatientDiagnosis)
+router.put('/update/:id', verifyToken, updeDiagnosis)
 
 export default router

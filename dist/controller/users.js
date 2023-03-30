@@ -24,8 +24,8 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             return res.status(400).json({ message: error.details[0].message });
         }
-        const { name, email, password } = req.body;
-        const data = { name, email, password };
+        const { name, email, role, password } = req.body;
+        const data = { name, email, role, password };
         const query = yield user.addUser(data);
         res
             .status(201)

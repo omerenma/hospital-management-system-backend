@@ -2,7 +2,8 @@ export type Users = {
     id?: Number;
     name?: string;
     email: string;
-    password: string;
+    role:string;
+    password: string
     // issent:Number
 }
 export type Verify = {
@@ -12,5 +13,5 @@ export type Verify = {
 }
 export type Login =  {
     email:string
-    passwor:string
+    password:string
 }

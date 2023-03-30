@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Diagnosis_1 = require("../controller/Diagnosis");
+const verifyTokens_1 = require("../middlewares/verifyTokens");
 const router = (0, express_1.Router)();
-router.post('/', Diagnosis_1.createDiagnosis);
+router.post('/', verifyTokens_1.verifyToken, Diagnosis_1.createDiagnosis);
+router.get('/diagnosis', verifyTokens_1.verifyToken, Diagnosis_1.getPatientDiagnosis);
+router.put('/update/:id', verifyTokens_1.verifyToken, Diagnosis_1.updeDiagnosis);
 exports.default = router;

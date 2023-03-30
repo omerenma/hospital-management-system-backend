@@ -16,10 +16,6 @@ exports.UsersModel = void 0;
 const database_1 = require("../database/database");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class UsersModel {
-    constructor() {
-        // UPDATE user
-        this.tomerID = 1;
-    }
     addUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -31,14 +27,13 @@ class UsersModel {
                 }
                 else {
                     const hash = bcryptjs_1.default.hashSync(user.password, 10);
-                    const sql = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING * ';
-                    const result = yield (yield db_connection).query(sql, [user.name, user.email, hash]);
+                    const sql = 'INSERT INTO users (name, email, role, password) VALUES ($1, $2, $3, $4) RETURNING * ';
+                    const result = yield (yield db_connection).query(sql, [user.name, user.email, user.role, hash]);
                     const response = result;
                     return response.rows[0];
                 }
             }
             catch (error) {
-                console.log(error);
                 throw new Error(error);
             }
         });
@@ -94,6 +89,7 @@ class UsersModel {
             }
         });
     }
+    // UPDATE user
     editUser(id, name, email, role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

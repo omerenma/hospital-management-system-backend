@@ -14,18 +14,17 @@ export class UsersModel {
                 throw new Error(`User with email: ${user.email},  already exist.`)
             }else{
                 const hash =   bcrypt.hashSync(user.password, 10);
-                const sql = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING * ';
-                const result = await (await db_connection).query(sql, [user.name,user.email,  hash])
+                const sql = 'INSERT INTO users (name, email, role, password) VALUES ($1, $2, $3, $4) RETURNING * ';
+                const result = await (await db_connection).query(sql, [user.name,user.email, user.role,  hash])
                 const response =  result
                  return response.rows[0]
             }
         } catch (error:any) {
-            console.log(error)
             throw new Error(error)
         }
     }
 
-    async login (user:Users): Promise<Users>{
+    async login (user:Login): Promise<Login>{
         try {
             const db_connection = client.connect()
             const check_email = `SELECT email, password FROM users WHERE email = ($1)`
@@ -72,7 +71,6 @@ export class UsersModel {
     }
 
      // UPDATE user
-   tomerID = 1;
 
      async editUser (id:string, name?:string, email?:string, role?:string ): Promise<[]> {
         try {

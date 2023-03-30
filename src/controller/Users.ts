@@ -11,8 +11,8 @@ export const signup = async (req: Request, res: Response) => {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-    const { name, email, password } = req.body;
-    const data = { name, email, password };
+    const { name, email,role, password } = req.body;
+    const data = { name, email, role, password };
     const query = await user.addUser(data);
     res
       .status(201)

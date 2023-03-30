@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Patients_1 = require("../controller/Patients");
+const verifyTokens_1 = require("../middlewares/verifyTokens");
 const router = (0, express_1.Router)();
-router.post('/', Patients_1.createPatient);
+router.post('/patient', Patients_1.createPatient);
+router.put('/patient/:id', verifyTokens_1.verifyToken, Patients_1.editPatient);
+router.delete('/patient/:id', verifyTokens_1.verifyToken, Patients_1.deletPatient);
 exports.default = router;
