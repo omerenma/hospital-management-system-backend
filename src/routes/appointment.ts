@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { createAppointment } from '../controller/appointment'
+import { createAppointment } from '../controller/Appointment'
 
 const router = Router()
 
