@@ -9,7 +9,6 @@ export interface Diagnosis {
     paid:string;
     description:string;
     patient_status:string;
-    doctor_email:string;
     issent?:number
 }
 

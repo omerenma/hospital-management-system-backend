@@ -15,3 +15,9 @@ export type Login =  {
     email:string
     password:string
 }
+export interface LoginData {
+   name:string;
+   email:string;
+   token:string;
+   role:string
+}

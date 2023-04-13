@@ -9,11 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAppointment = void 0;
+exports.getAppointment = exports.createAppointment = void 0;
 const appointmentVallidation_1 = require("../helpers/appointmentVallidation");
 const Appointment_1 = require("../models/Appointment");
-const appointment = new Appointment_1.AppointmentModel();
 const createAppointment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const appointment = new Appointment_1.AppointmentModel();
     try {
         const { patient_name, doctor_email, date, patient_email } = req.body;
         const { error, value } = appointmentVallidation_1.appointmentSchema.validate(req.body);
@@ -22,12 +22,21 @@ const createAppointment = (req, res) => __awaiter(void 0, void 0, void 0, functi
         }
         const data = { patient_name, doctor_email, date, patient_email };
         const query = yield appointment.addAppointment(data);
-        res
-            .status(201)
-            .json({ message: "New user registered successfully", data: query });
+        res.status(201).json({ message: `An appointment has been scheduled with ${data.doctor_email} and ${data.patient_name} `, data: query });
     }
     catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }
 });
 exports.createAppointment = createAppointment;
+const getAppointment = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const appointment = new Appointment_1.AppointmentModel();
+    try {
+        const response = yield appointment.getAppointment();
+        return res.status(200).json(response);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+});
+exports.getAppointment = getAppointment;

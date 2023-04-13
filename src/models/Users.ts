@@ -1,5 +1,5 @@
 import {client} from '../database/database'
-import { Users, Verify, Login } from '../utils/types'
+import { Users, Verify, Login, LoginData } from '../utils/types'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
@@ -24,13 +24,13 @@ export class UsersModel {
         }
     }
 
-    async login (user:Login): Promise<Login>{
+    async login (email:string, password:string): Promise<LoginData>{
         try {
             const db_connection = client.connect()
-            const check_email = `SELECT email, password FROM users WHERE email = ($1)`
-            const query_email = await (await db_connection).query(check_email, [user.email])
+            const check_email = `select name, email,role, password from users where email = ($1) `
+            const query_email = await (await db_connection).query(check_email, [email])
             if(query_email.rows.length > 0){
-               const isMatch = await bcrypt.compare(user.password, query_email.rows[0].password)
+               const isMatch = await bcrypt.compare(password, query_email.rows[0].password)
                 if(isMatch){
                     return query_email.rows[0]
                 }
@@ -43,12 +43,12 @@ export class UsersModel {
     }
 
     // Get all users
-    async getUsers (): Promise <[]> {
+    async getUsers (): Promise <Users[]> {
         try {
          const db_connection = client.connect()
          const sql = `SELECT * FROM users`
          const query = await (await db_connection).query(sql)
-         return query.rows[0]
+         return query.rows
         } catch (error:any) {
          return error
         }
@@ -56,15 +56,12 @@ export class UsersModel {
 
     // Delete user
 
-    async deleteUser (id:string): Promise<[]> {
+    async deleteUser (id:number): Promise<Users> {
         try {
             const db_connection = client.connect()
-            const query_id = `SELECT id from users WHERE id =($1)`
+            const query_id = `DELETE  FROM users WHERE id =($1)`
             const sql = await (await db_connection).query(query_id, [id])
-            if (sql.rows.length > 0 ) {
-                return sql.rows[0].id
-            }
-                return sql.rows[0]
+            return sql.rows[0]
         } catch (error:any) {
             return error
         }
@@ -87,12 +84,12 @@ export class UsersModel {
     }
 
        // Get Doctors
-       async getDoctors (): Promise <[]> {
+       async getDoctors (): Promise <Users[]> {
         try {
          const db_connection = client.connect()
-         const sql = `SELECT * FROM users WHERE role = doctor`
+         const sql = `SELECT * FROM users WHERE role = 'doctor' `
          const query = await (await db_connection).query(sql)
-         return query.rows[0]
+         return query.rows
         } catch (error:any) {
          return error
         }

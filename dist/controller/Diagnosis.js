@@ -14,23 +14,23 @@ const diagnosisVallidation_1 = require("../helpers/diagnosisVallidation");
 const Diagnosis_1 = require("../models/Diagnosis");
 const diagnosis = new Diagnosis_1.DiagnosismentModel();
 const createDiagnosis = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
-        const { bill, date, description, doctor_email, doctor_name, drug_administered, paid, patient_email, patient_status, treatment_name, } = req.body;
+        const { bill, date, description, doctor_name, drug_administered, paid, patient_email, patient_status, treatment_name, } = req.body;
         const { error, value } = diagnosisVallidation_1.diagnosisSchema.validate(req.body);
         if (error) {
             return res.status(400).json({ message: error.details[0].message });
         }
         const data = {
+            treatment_name,
             bill,
             date,
             description,
-            doctor_email,
             doctor_name,
             drug_administered,
             paid,
             patient_email,
             patient_status,
-            treatment_name,
         };
         const query = yield diagnosis.addDiagnosis(data);
         res
@@ -38,6 +38,7 @@ const createDiagnosis = (req, res) => __awaiter(void 0, void 0, void 0, function
             .json({ message: "Diagnosis successfully added", data: query });
     }
     catch (error) {
+        console.log(error.message, 'mesage error');
         res.status(500).json({ message: "Something went wrong" });
     }
 });

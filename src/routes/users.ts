@@ -1,11 +1,13 @@
 import {Router} from 'express'
-import {signin, signup, getUsers, deleteUser} from '../controller/Users'
+import {signin, signup, getUsers, deleteUser, getDoctors} from '../controller/Users'
 import { verifyToken } from '../middlewares/verifyTokens'
 const router = Router()
 
-router.post('/signup', signup)
+router.post('/register', signup)
 router.post('/signin', signin)
-router.get('/users', verifyToken, getUsers )
-router.delete('/user/:id', verifyToken, deleteUser)
+router.get('/getusers',  getUsers )
+router.get('/getdoctors', getDoctors)
+router.delete('/user/:id', deleteUser)
+
 
 export default router

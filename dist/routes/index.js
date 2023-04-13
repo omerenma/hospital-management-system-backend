@@ -10,5 +10,5 @@ const appointment_1 = __importDefault(require("./appointment"));
 exports.appointmentRoute = appointment_1.default;
 const diagnosis_1 = __importDefault(require("./diagnosis"));
 exports.diagnosisRoute = diagnosis_1.default;
-const patients_1 = __importDefault(require("./patients"));
+const patients_1 = __importDefault(require("../patients"));
 exports.patientRoute = patients_1.default;

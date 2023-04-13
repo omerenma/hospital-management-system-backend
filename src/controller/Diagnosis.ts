@@ -3,12 +3,12 @@ import { diagnosisSchema } from "../helpers/diagnosisVallidation";
 import { DiagnosismentModel } from "../models/Diagnosis";
 const diagnosis = new DiagnosismentModel();
 export const createDiagnosis = async (req: Request, res: Response) => {
+  console.log(req.body)
   try {
     const {
       bill,
       date,
       description,
-      doctor_email,
       doctor_name,
       drug_administered,
       paid,
@@ -21,22 +21,22 @@ export const createDiagnosis = async (req: Request, res: Response) => {
       return res.status(400).json({ message: error.details[0].message });
     }
     const data = {
+      treatment_name,
       bill,
       date,
       description,
-      doctor_email,
       doctor_name,
       drug_administered,
       paid,
       patient_email,
       patient_status,
-      treatment_name,
     };
     const query = await diagnosis.addDiagnosis(data);
     res
       .status(201)
       .json({ message: "Diagnosis successfully added", data: query });
-  } catch (error) {
+  } catch (error:any) {
+    console.log(error.message, 'mesage error')
     res.status(500).json({ message: "Something went wrong" });
   }
 };

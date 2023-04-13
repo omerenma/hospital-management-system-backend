@@ -11,23 +11,25 @@ export const createPatient = async (req: Request, res: Response) => {
     admission_no,
     id_no,
     email,
-    phone_number,
+    phone_no,
     next_of_kin_name,
     next_of_kin_phone_no,
     status,
   } = req.body;
+
+
   const { error, value } = patientSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
   const data = {
     name,
+    email,
     residential_address,
     room_admitted,
     admission_no,
     id_no,
-    email,
-    phone_number,
+    phone_no,
     next_of_kin_name,
     next_of_kin_phone_no,
     status,
@@ -73,8 +75,18 @@ export const editPatient = async (req: Request, res: Response) => {
 export const getPatients = async (req:Request, res:Response) => {
     try {
         const result = await patient.getPatients()
-        res.status(200).json({data:result})
+        res.status(200).json(result)
     } catch (error) {
         return res.status(500).json({error})
     }
+}
+
+export const getPatientsById = async (req:Request, res:Response) => {
+  try {
+    const {id} = req.params
+      const result = await patient.getPatientsById(id)
+      res.status(200).json({data:result})
+  } catch (error) {
+      return res.status(500).json({error})
+  }
 }

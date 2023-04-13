@@ -16,13 +16,27 @@ class AppointmentModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const db_connection = database_1.client.connect();
-                const sql = 'INSERT INTO appointments; (patient_name, patient_email, doctor_email, date) VALUES ($1, $2, $3, $4) RETURNING * ';
-                const result = yield (yield db_connection).query(sql, [user.id, user.patient_email, user.doctor_email, user.patient_email, user.date]);
+                const sql = 'INSERT INTO appointments (patient_name, patient_email, doctor_email, date) VALUES ($1, $2, $3, $4) RETURNING * ';
+                const result = yield (yield db_connection).query(sql, [user.patient_email, user.doctor_email, user.patient_email, user.date]);
                 const response = result;
                 return response.rows[0];
             }
             catch (error) {
                 throw new Error(error);
+            }
+        });
+    }
+    getAppointment() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const db_connection = yield database_1.client.connect();
+                const sql = "SELECT * FROM appointments";
+                const result = yield db_connection.query(sql);
+                const response = result;
+                return response.rows;
+            }
+            catch (error) {
+                return error;
             }
         });
     }

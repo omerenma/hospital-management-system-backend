@@ -3,7 +3,7 @@ import { createDiagnosis, getPatientDiagnosis , updeDiagnosis} from '../controll
 import { verifyToken } from '../middlewares/verifyTokens';
 const router = Router();
 
-router.post('/', verifyToken, createDiagnosis)
+router.post('/add',  createDiagnosis)
 router.get('/diagnosis', verifyToken ,getPatientDiagnosis)
 router.put('/update/:id', verifyToken, updeDiagnosis)
 

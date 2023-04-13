@@ -15,7 +15,7 @@ app.use('/users', index_1.userRoute);
 app.use('/appointment', index_1.appointmentRoute);
 app.use('/diagnosis', index_1.diagnosisRoute);
 app.use('/patient', index_1.patientRoute);
-app.listen(3000, () => {
+app.listen(5000, () => {
     console.log(`Express server running on port ${process.env.server}`);
 });
 module.exports = app;

@@ -5,7 +5,7 @@ export interface Patient {
     admission_no:string; 
     id_no:string; 
     email:string; 
-    phone_number:string;
+    phone_no:string;
     next_of_kin_name:string;
     next_of_kin_phone_no:string;
     status:string;

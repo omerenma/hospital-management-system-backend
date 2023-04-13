@@ -1,4 +1,4 @@
-CREATE TABLE diagnosis (
+   CREATE TABLE diagnosis (
     id serial primary key,
     treatment_name VARCHAR(500) NOT NULL,
     drug_administered VARCHAR(500) NOT NULL,
@@ -6,9 +6,8 @@ CREATE TABLE diagnosis (
     patient_email VARCHAR(200) NOT NULL,
     bill int NOT NULL,
     date VARCHAR(200) NOT NULL,
-    paid int DEFAULT 0 NOT NULL,
+    paid VARCHAR (200) NOT NULL,
     description VARCHAR(500) NOT NULL,
     patient_status VARCHAR(500) NOT NULL,
-    doctor_email VARCHAR(225) NOT NULL,
     issent int DEFAULT 0 NOT NULL
 )

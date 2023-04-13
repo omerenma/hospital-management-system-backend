@@ -9,24 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPatients = exports.editPatient = exports.deletPatient = exports.createPatient = void 0;
+exports.getPatientsById = exports.getPatients = exports.editPatient = exports.deletPatient = exports.createPatient = void 0;
 const Patient_1 = require("../models/Patient");
 const patientValidation_1 = require("../helpers/patientValidation");
 const patient = new Patient_1.PatientModel();
 const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, residential_address, room_admitted, admission_no, id_no, email, phone_number, next_of_kin_name, next_of_kin_phone_no, status, } = req.body;
+    const { name, residential_address, room_admitted, admission_no, id_no, email, phone_no, next_of_kin_name, next_of_kin_phone_no, status, } = req.body;
     const { error, value } = patientValidation_1.patientSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
     const data = {
         name,
+        email,
         residential_address,
         room_admitted,
         admission_no,
         id_no,
-        email,
-        phone_number,
+        phone_no,
         next_of_kin_name,
         next_of_kin_phone_no,
         status,
@@ -73,10 +73,21 @@ exports.editPatient = editPatient;
 const getPatients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield patient.getPatients();
-        res.status(200).json({ data: result });
+        res.status(200).json(result);
     }
     catch (error) {
         return res.status(500).json({ error });
     }
 });
 exports.getPatients = getPatients;
+const getPatientsById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield patient.getPatientsById(id);
+        res.status(200).json({ data: result });
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
+});
+exports.getPatientsById = getPatientsById;

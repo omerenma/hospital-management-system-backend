@@ -5,16 +5,15 @@ import {userRoute, appointmentRoute, diagnosisRoute, patientRoute} from './route
 const app:express.Application = express();
 
 
-dotenv.config();
+dotenv.config()
 app.use(express.json())
-
 app.use(cors())
 app.use('/users', userRoute)
 app.use('/appointment', appointmentRoute)
 app.use('/diagnosis', diagnosisRoute)
 app.use('/patient', patientRoute)
 
-app.listen(3000 ,() => {
+app.listen(5000 ,() => {
     console.log(`Express server running on port ${process.env.server}`)
 })
 

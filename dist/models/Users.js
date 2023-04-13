@@ -38,14 +38,14 @@ class UsersModel {
             }
         });
     }
-    login(user) {
+    login(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const db_connection = database_1.client.connect();
-                const check_email = `SELECT email, password FROM users WHERE email = ($1)`;
-                const query_email = yield (yield db_connection).query(check_email, [user.email]);
+                const check_email = `select name, email,role, password from users where email = ($1) `;
+                const query_email = yield (yield db_connection).query(check_email, [email]);
                 if (query_email.rows.length > 0) {
-                    const isMatch = yield bcryptjs_1.default.compare(user.password, query_email.rows[0].password);
+                    const isMatch = yield bcryptjs_1.default.compare(password, query_email.rows[0].password);
                     if (isMatch) {
                         return query_email.rows[0];
                     }
@@ -65,7 +65,7 @@ class UsersModel {
                 const db_connection = database_1.client.connect();
                 const sql = `SELECT * FROM users`;
                 const query = yield (yield db_connection).query(sql);
-                return query.rows[0];
+                return query.rows;
             }
             catch (error) {
                 return error;
@@ -77,11 +77,8 @@ class UsersModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const db_connection = database_1.client.connect();
-                const query_id = `SELECT id from users WHERE id =($1)`;
+                const query_id = `DELETE  FROM users WHERE id =($1)`;
                 const sql = yield (yield db_connection).query(query_id, [id]);
-                if (sql.rows.length > 0) {
-                    return sql.rows[0].id;
-                }
                 return sql.rows[0];
             }
             catch (error) {
@@ -111,9 +108,9 @@ class UsersModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const db_connection = database_1.client.connect();
-                const sql = `SELECT * FROM users WHERE role = doctor`;
+                const sql = `SELECT * FROM users WHERE role = 'doctor' `;
                 const query = yield (yield db_connection).query(sql);
-                return query.rows[0];
+                return query.rows;
             }
             catch (error) {
                 return error;
