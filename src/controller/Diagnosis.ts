@@ -86,3 +86,12 @@ export const getPatientDiagnosis = async (req: Request, res: Response) => {
     return res.status(500).json({message: 'Unable to fetch diagnosis result details'})
   }
 }
+
+export const getAllDiagnosis = async (req: Request, res: Response) => {
+  try {
+    const result = await diagnosis.getAllDiagnosis()
+    return res.status(200).json(result)
+  } catch (error) {
+    return res.status(500).json({message: 'Unable to fetch diagnosis result details'})
+  }
+}

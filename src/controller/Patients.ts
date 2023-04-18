@@ -6,15 +6,14 @@ const patient = new PatientModel();
 export const createPatient = async (req: Request, res: Response) => {
   const {
     name,
+    dob,
+    sex,
     residential_address,
-    room_admitted,
-    admission_no,
-    id_no,
+   date,
     email,
     phone_no,
     next_of_kin_name,
     next_of_kin_phone_no,
-    status,
   } = req.body;
 
 
@@ -24,15 +23,14 @@ export const createPatient = async (req: Request, res: Response) => {
   }
   const data = {
     name,
+    dob,
+    sex,
     email,
     residential_address,
-    room_admitted,
-    admission_no,
-    id_no,
+    date,
     phone_no,
     next_of_kin_name,
     next_of_kin_phone_no,
-    status,
   };
   try {
     const result = await patient.addPatient(data);

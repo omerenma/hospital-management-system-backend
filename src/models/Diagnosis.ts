@@ -75,4 +75,16 @@ export class DiagnosismentModel {
             return error
            }
     }
+
+    async getAllDiagnosis():Promise<Diagnosis[]> {
+      try {
+        const db_connection = await client.connect()
+        const sql = `SELECT * FROM diagnosis`
+        const query = await db_connection.query(sql)
+        return query.rows
+
+      } catch (error:any) {
+        return error
+      }
+    }
 }

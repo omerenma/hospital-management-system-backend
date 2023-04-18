@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPatientDiagnosis = exports.updeDiagnosis = exports.createDiagnosis = void 0;
+exports.getAllDiagnosis = exports.getPatientDiagnosis = exports.updeDiagnosis = exports.createDiagnosis = void 0;
 const diagnosisVallidation_1 = require("../helpers/diagnosisVallidation");
 const Diagnosis_1 = require("../models/Diagnosis");
 const diagnosis = new Diagnosis_1.DiagnosismentModel();
@@ -80,3 +80,13 @@ const getPatientDiagnosis = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getPatientDiagnosis = getPatientDiagnosis;
+const getAllDiagnosis = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield diagnosis.getAllDiagnosis();
+        return res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'Unable to fetch diagnosis result details' });
+    }
+});
+exports.getAllDiagnosis = getAllDiagnosis;

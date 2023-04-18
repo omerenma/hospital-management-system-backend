@@ -88,5 +88,18 @@ class DiagnosismentModel {
             }
         });
     }
+    getAllDiagnosis() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const db_connection = yield database_1.client.connect();
+                const sql = `SELECT * FROM diagnosis`;
+                const query = yield db_connection.query(sql);
+                return query.rows;
+            }
+            catch (error) {
+                return error;
+            }
+        });
+    }
 }
 exports.DiagnosismentModel = DiagnosismentModel;

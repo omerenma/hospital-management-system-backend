@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import { createPatient, editPatient, deletPatient, getPatients} from './controller/Patients'
-import { verifyToken } from './middlewares/verifyTokens'
+import { createPatient, editPatient, deletPatient, getPatients} from '../controller/Patients'
+import { verifyToken } from '../middlewares/verifyTokens'
 
 const router = Router()
 router.get('/', getPatients)

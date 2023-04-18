@@ -2,11 +2,24 @@ import { client } from "../database/database";
 import { Patient, UpdatePatient } from "../interface/Patient";
 
 export class PatientModel {
-  async addPatient(user: Patient): Promise<{message:string}> {
+  async   addPatient(user: Patient): Promise<{ message: string }> {
     try {
       const db_connection = client.connect();
-      const sql = "INSERT INTO patients (name, residential_address,  room_admitted,  admission_no, id_no, email, phone_no, next_of_kin_name, next_of_kin_phone_no, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING * ";
-      const result = await (await db_connection).query(sql, [user.name, user.residential_address, user.room_admitted, user.admission_no, user.id_no, user.email, user.phone_no, user.next_of_kin_name, user.next_of_kin_phone_no, user.status]);
+      const sql =
+        "INSERT INTO patients (name, sex, dob, date, residential_address,email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ";
+      const result = await (
+        await db_connection
+      ).query(sql, [
+        user.name,
+        user.sex,
+        user.dob,
+        user.residential_address,
+         user.date,
+        user.email,
+        user.phone_no,
+        user.next_of_kin_name,
+        user.next_of_kin_phone_no,
+      ]);
       const response = result;
       return response.rows[0];
     } catch (error: any) {
@@ -31,13 +44,13 @@ export class PatientModel {
 
   // UPDATE patient
 
-  async editPatient(user:UpdatePatient): Promise<UpdatePatient> {
+  async editPatient(user: UpdatePatient): Promise<UpdatePatient> {
     try {
       const db_connection = client.connect();
       const query = `UPDATE patients SET (status) = ($1)  WHERE id = ${user.id}`;
       const sql = await (
         await db_connection
-      ).query(query, [user.id, user.status ]);
+      ).query(query, [user.id, user.status]);
       if (sql.rows.length > 0) {
         return sql.rows[0].id;
       }
@@ -53,12 +66,12 @@ export class PatientModel {
       const db_connection = client.connect();
       const sql = `SELECT * FROM patients`;
       const query = await (await db_connection).query(sql);
-      return query.rows
+      return query.rows;
     } catch (error: any) {
       return error;
     }
   }
-  async getPatientsById(id:string): Promise<Patient> {
+  async getPatientsById(id: string): Promise<Patient> {
     try {
       const db_connection = client.connect();
       const sql = `SELECT * FROM patients WHERE id = $($1)`;
@@ -68,6 +81,4 @@ export class PatientModel {
       return error;
     }
   }
-  
 }
-
