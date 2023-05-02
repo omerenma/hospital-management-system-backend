@@ -23,7 +23,6 @@ export const verifyToken = (req: Extended, res: Response, next: NextFunction) =>
        req.info = verify
 
     } catch (error) {
-        console.log('ERROR: ', error )
         return res.status(500).json({error: 'something went wrong'})
     }
     next()
