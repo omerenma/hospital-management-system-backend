@@ -21,3 +21,10 @@ export interface LoginData {
    token:string;
    role:string
 }
+
+export interface LoginFailed {
+    name:string;
+    email:string;
+    token:string;
+    role:string
+ }

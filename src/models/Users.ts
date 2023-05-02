@@ -1,7 +1,6 @@
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 
 
 export class UsersModel {
@@ -26,19 +25,16 @@ export class UsersModel {
 
     async login (email:string, password:string): Promise<LoginData>{
         try {
-            const db_connection = client.connect()
-            const check_email = `select name, email,role, password from users where email = ($1) `
-            const query_email = await (await db_connection).query(check_email, [email])
-            if(query_email.rows.length > 0){
-               const isMatch = await bcrypt.compare(password, query_email.rows[0].password)
-                if(isMatch){
-                    return query_email.rows[0]
-                }
-                throw new Error('Invalid credentials supplied')
-            }
-            throw new Error('User not found')
+            const db_connection = await client.connect()
+            const check_email = 'select * from users where email = ($1) '
+            const query_email = await  db_connection.query(check_email, [email])
+            let query_result = query_email.rows
+            let isMatch;
+            isMatch= await bcrypt.compare(password, query_email.rows[0].password)
+           return  query_result.length === 1 && isMatch === true ?  query_result[0] : null
+           
         } catch (error:any) {
-            throw new Error(error)
+            return error.message
         } 
     }
 

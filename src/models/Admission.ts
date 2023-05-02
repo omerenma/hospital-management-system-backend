@@ -1,5 +1,5 @@
 import {client} from '../database/database'
-import { Admission } from '../interface/Admission';
+import { Admission, GetAdmission } from '../interface/Admission';
 
 export class AdmissionModel {
     async createAdmission(user:Admission): Promise<[]> {
@@ -20,10 +20,10 @@ export class AdmissionModel {
         }
     }
 
-    async getAdmission ():Promise<Admission[]> {
+    async getAdmission ():Promise<GetAdmission[]> {
         try {
             const db_connection = await client.connect()
-            const sql = "SELECT * FROM admissions";
+            const sql = "select * from admissions join patients on patients.patients_id = admissions.patients_id";
             const result = await db_connection.query(sql)
             const response = result
             return response.rows

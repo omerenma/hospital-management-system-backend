@@ -28,18 +28,30 @@ export const signin = async (req: Request, res: Response) => {
     const { error, value } = loginSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
-    }
-    if (value) {
+    } 
+  
       const { email, password } = req.body;
+  
       const result = await user.login(email, password);
-      let payload = jwt.sign({ payload: result }, process.env.TOKEN_SECRET as string, { expiresIn: "30 minutes" });
-      res.status(200).json({ message: "Login successful", token: payload, name: result.name, email:result.email, role:result.role });
-    } else {
-      return res.status(400).json({ message: "Invalid login credentials" });
-    }
-  } catch (error: any) {
-    res.status(500).json({ message: "Something went wrong" });
+    
+      if(result){
+        let payload = jwt.sign({ payload: result },process.env.TOKEN_SECRET as string,{ expiresIn: "30 minutes"})
+            res.status(200).json({
+              message: "Login successful",
+              token: payload,
+              name: result && result.name,
+              email: result && result.email,
+              role: result && result.role,
+            });
+      }else{
+        return res.status(400).json({message:'Invalid login credentials'})
+      }
+    
+  } catch (error) {
+    res.json(error)
   }
+ 
+  
 };
 
 // Get all users
@@ -57,12 +69,10 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await user.deleteUser(id as unknown as number);
-    res
-      .status(201)
-      .json({
-        message: `User ${result.name} has been deleted successfully`,
-        data: result,
-      });
+    res.status(201).json({
+      message: `User ${result.name} has been deleted successfully`,
+      data: result,
+    });
   } catch (error) {
     return res.status(400).json({ message: "Something went wrong" });
   }
