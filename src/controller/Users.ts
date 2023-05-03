@@ -35,6 +35,7 @@ export const signin = async (req: Request, res: Response) => {
       const result = await user.login(email, password);
     
       if(result){
+        
         let payload = jwt.sign({ payload: result },process.env.TOKEN_SECRET as string,{ expiresIn: "30 minutes"})
             res.status(200).json({
               message: "Login successful",
@@ -67,13 +68,14 @@ export const getUsers = async (req: Request, res: Response) => {
 // Delete user
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await user.deleteUser(id as unknown as number);
-    res.status(201).json({
-      message: `User ${result.name} has been deleted successfully`,
+    const {id} = req.params
+    const result = await user.deleteUser(parseInt(id));
+    res.status(200).json({
+      message: `User has been deleted successfully`,
       data: result,
     });
-  } catch (error) {
+  } catch (error:any) {
+    console.log(error.message)
     return res.status(400).json({ message: "Something went wrong" });
   }
 };

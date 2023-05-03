@@ -14,11 +14,10 @@ export const verifyToken = (req: Extended, res: Response, next: NextFunction) =>
         // Get token from headers
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
-        if(!token){
+        if(!authHeader){
             return res.status(401).json({message: 'You are not authorized'})
         }
-        const verify = jwt.verify(token, process.env.TOKEN_SECRET as string) as Data
-        console.log(verify)
+        const verify = jwt.verify(authHeader, process.env.TOKEN_SECRET as string) as Data
        
        req.info = verify
 
