@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import {userRoute, appointmentRoute, diagnosisRoute, patientRoute, admission } from './routes/index'
+import {userRoute, appointmentRoute, diagnosisRoute, patientRoute, admission, doctorRoute, bookAppointment } from './routes/index'
 const app:express.Application = express();
 
 
@@ -13,6 +13,8 @@ app.use('/appointment', appointmentRoute)
 app.use('/diagnosis', diagnosisRoute)
 app.use('/patient', patientRoute)
 app.use('/admission', admission)
+app.use('/doctors', doctorRoute)
+app.use('/book_appointments', bookAppointment)
 
 app.listen(5000 ,() => {
     console.log(`Express server running on port ${process.env.server}`)

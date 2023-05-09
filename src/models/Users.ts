@@ -1,7 +1,12 @@
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
 import bcrypt from 'bcryptjs'
-
+interface editUser{
+    id:number;
+    name:string;
+    email:string;
+    role:string
+}
 
 export class UsersModel {
     async addUser(user:Users): Promise<Users> {
@@ -50,6 +55,20 @@ export class UsersModel {
         }
     }
 
+     // Get all users
+     async getUserById (id:number): Promise <Users[]> {
+        console.log(id)
+        try {
+         const db_connection = client.connect()
+         const sql = `SELECT * FROM users WHERE id = ($1)`
+         const query = await (await db_connection).query(sql, [id])
+         return query.rows
+        } catch (error:any) {
+            console.log(error.message)
+         return error
+        }
+    }
+
     // Delete user
 
     async deleteUser (id:number): Promise<Users> {
@@ -65,15 +84,21 @@ export class UsersModel {
 
      // UPDATE user
 
+   
      async editUser (id:string, name?:string, email?:string, role?:string ): Promise<[]> {
         try {
-            const db_connection = client.connect()
-            const query = `UPDATE users SET name, email, role WHERE id = ($1)`
-            const sql = await (await db_connection).query(query, [id, name, email, role])
-            if (sql.rows.length > 0 ) {
-                return sql.rows[0].id
+            const db_connection = await client.connect()
+            // const query_id = `select * from users where id = ${id}`
+            // const id_result = await db_connection.query(query_id)
+            // if(id_result.rowCount != 0){
+            //     throw new Error("No user found for the operation")
+            // }
+            const query = `UPDATE users SET name = $1, email = $2, role = $3 WHERE id = ${id}`
+            const result = await db_connection.query(query, [name, email, role])
+            if(result.rowCount !== 0){
+                return result.rows[0]
             }
-                return sql.rows[0]
+            return result.rows[0]
         } catch (error:any) {
             return error
         }
