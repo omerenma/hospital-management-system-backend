@@ -33,7 +33,6 @@ export const signin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     const result = await user.login(email, password);
-
     if (result) {
       let payload = jwt.sign(
         { payload: result },
@@ -46,6 +45,7 @@ export const signin = async (req: Request, res: Response) => {
         name: result && result.name,
         email: result && result.email,
         role: result && result.role,
+        id:result && result.id
       });
     } else {
       return res.status(400).json({ message: "Invalid login credentials" });

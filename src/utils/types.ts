@@ -19,7 +19,8 @@ export interface LoginData {
    name:string;
    email:string;
    token:string;
-   role:string
+   role:string;
+   id:string
 }
 
 export interface LoginFailed {

@@ -1,5 +1,5 @@
 export interface Patient {
-    name:string;
+    patients_name:string;
     sex:string;
     dob:string;
     residential_address:string; 
@@ -11,7 +11,7 @@ export interface Patient {
 }
 export interface UpdatePatient {
     id:string;
-    name?:string 
+    patients_name?:string 
     residential_address?:string; 
     room_admitted?:string; 
     admission_no?:string; 

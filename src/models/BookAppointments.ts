@@ -33,12 +33,12 @@ export class BookAppointmentModel {
         }
     }
 
-    async getAppointmentByDoctorId(id:string):Promise<Appointment[]> {
+    async getAppointmentByDoctorId(id:string):Promise<{}> {
         try {
             const db_connection = await client.connect()
             const sql = "SELECT * FROM book_appointments JOIN patients ON patients_id=patient_id JOIN doctors ON id_doctor=doctor_id WHERE id_doctor = ($1)";
             const result = await db_connection.query(sql, [id])
-            return result.rows[0]
+            return result.rows
 
 
         } catch (error:any) {

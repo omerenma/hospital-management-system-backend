@@ -3,7 +3,7 @@ import { createDocotrSchema,  } from "../helpers/doctorValidation";
 import { DoctorModel } from "../models/Doctors";
 
 const user = new DoctorModel();
-// Add new user
+// Add doctor
 export const createDoctor = async (req: Request, res: Response) => {
   try {
     const { error, value } = createDocotrSchema.validate(req.body);

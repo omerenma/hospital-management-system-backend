@@ -34,6 +34,8 @@ export const getAppointmentByDoctorId = async (req:Request, res:Response) => {
     const appointment = new BookAppointmentModel()
     try {
         const {id} = req.params
+
+        // const check = req.user
         const response = await appointment.getAppointmentByDoctorId(id)
         return res.status(200).json(response)
     } catch (error:any) {

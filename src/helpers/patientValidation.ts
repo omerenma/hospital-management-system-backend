@@ -1,7 +1,7 @@
 import joi from 'joi'
 export const patientSchema = joi.object(
     {
-        name:joi.string().required().min(6),
+        patients_name:joi.string().required().min(6),
         sex:joi.string().required(),
         dob:joi.string().required(),
         date:joi.string().required(),

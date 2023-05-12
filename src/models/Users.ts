@@ -1,8 +1,8 @@
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
 import bcrypt from 'bcryptjs'
-interface editUser{
-    id:number;
+interface User{
+    id:string;
     name:string;
     email:string;
     role:string
@@ -44,11 +44,11 @@ export class UsersModel {
     }
 
     // Get all users
-    async getUsers (): Promise <Users[]> {
+    async getUsers (): Promise <User[]> {
         try {
-         const db_connection = client.connect()
+         const db_connection =await client.connect()
          const sql = `SELECT * FROM users`
-         const query = await (await db_connection).query(sql)
+         const query = await  db_connection.query(sql)
          return query.rows
         } catch (error:any) {
          return error

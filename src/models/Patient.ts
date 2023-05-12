@@ -6,11 +6,11 @@ export class PatientModel {
     try {
       const db_connection = client.connect();
       const sql =
-        "INSERT INTO patients (name, sex, dob,residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ";
+        "INSERT INTO patients (patients_name, sex, dob,residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ";
       const result = await (
         await db_connection
       ).query(sql, [
-        user.name,
+        user.patients_name,
         user.sex,
         user.dob,
         user.residential_address,

@@ -1,3 +1,4 @@
+import { date } from 'joi';
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
 import bcrypt from 'bcryptjs'
@@ -11,21 +12,41 @@ interface Doctors{
 }
 
 export class DoctorModel {
-    async addDoctor(data:Doctors): Promise<{message:string}> {
+    async addDoctor(data:Doctors): Promise<{message:string}> 
+    {
         try {
             const db_connection = await client.connect()
+            // Query Users table
+            const user_email = `select * from users where email = ($1)`
+           const users =  await db_connection.query(user_email,[data.email])
+           const doctor_data =  users.rows
+            
             const checkEmail = `SELECT email FROM doctors WHERE email=($1)`
             const query_email = await db_connection.query(checkEmail, [data.email])
             if( query_email.rows.length > 0){
                 
                 throw new Error(`Doctor with email: ${data.email},  already exist.`)
             }else{
-                const sql = 'INSERT INTO doctors (name, email, sex, phone_no, dob, specialty) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * ';
-                const result = await db_connection.query(sql, [data.name,data.email, data.sex, data.dob,  data.phone_no, data.specialty])
-                const response =  result
-                 return response.rows[0]
+                const sql = 'INSERT INTO doctors (id_doctor, name, email, sex, phone_no, dob, specialty) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING * ';
+                doctor_data.map(item =>{
+                    const datas = {
+                        id_doctor:item.id as string,
+                        name:item.name as string,
+                        email:item.email as string,
+                        sex:data.sex,
+                        dob:data.dob,
+                        phone_no:data.phone_no,
+                        specialty:data.specialty
+                    }
+                    const result =  db_connection.query(sql, [datas.id_doctor, datas.name, datas.email, datas.sex, datas.phone_no, datas.dob, datas.specialty])
+                    const response =  result
+                    return response
+
+                })
+                return doctor_data[0]
             }
         } catch (error:any) {
+            console.log(error, 'is error')
             return error.message
         }
       

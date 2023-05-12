@@ -5,7 +5,7 @@ import { patientSchema } from "../helpers/patientValidation";
 const patient = new PatientModel();
 export const createPatient = async (req: Request, res: Response) => {
   const {
-    name,
+    patients_name,
     dob,
     sex,
     residential_address,
@@ -22,7 +22,7 @@ export const createPatient = async (req: Request, res: Response) => {
     return res.status(400).json({ message: error.details[0].message });
   }
   const data = {
-    name,
+    patients_name,
     dob,
     sex,
     email,

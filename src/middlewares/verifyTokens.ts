@@ -18,8 +18,8 @@ export const verifyToken = (req: Extended, res: Response, next: NextFunction) =>
             return res.status(401).json({message: 'You are not authorized'})
         }
         const verify = jwt.verify(authHeader, process.env.TOKEN_SECRET as string) as Data
-       
        req.info = verify
+     
 
     } catch (error) {
         return res.status(500).json({error: 'something went wrong'})
