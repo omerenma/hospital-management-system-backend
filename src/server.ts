@@ -16,7 +16,7 @@ app.use('/admission', admission)
 app.use('/doctors', doctorRoute)
 app.use('/book_appointments', bookAppointment)
 
-app.listen(5000 ,() => {
+app.listen(process.env.server ,() => {
     console.log(`Express server running on port ${process.env.server}`)
 })
 
