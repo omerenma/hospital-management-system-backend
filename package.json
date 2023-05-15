@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.22",
     "pg": "^8.10.0",
-    "postgres": "^3.3.4"
+    "postgres": "^3.3.4",
+    "ts-node": "^10.9.1"
   }
 }
