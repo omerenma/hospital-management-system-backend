@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import {userRoute, appointmentRoute, diagnosisRoute, patientRoute, admission, doctorRoute, bookAppointment } from './routes/index'
@@ -6,6 +6,9 @@ const app:express.Application = express();
 
 
 dotenv.config()
+app.get("/", (req:Request, res:Response) => {
+    res.send("Hello World")
+})
 app.use(express.json())
 app.use(cors())
 app.use('/users', userRoute)
