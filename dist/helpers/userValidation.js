@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginSchema = exports.registerSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.registerSchema = joi_1.default.object({
-    name: joi_1.default.string().required().min(6),
+    name: joi_1.default.string().required(),
     email: joi_1.default.string().email().exist().required(),
     password: joi_1.default.string().required().min(8),
     role: joi_1.default.string().required()

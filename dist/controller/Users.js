@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDoctors = exports.editUser = exports.deleteUser = exports.getUsers = exports.signin = exports.signup = void 0;
+exports.getDoctors = exports.editUser = exports.deleteUser = exports.getUserById = exports.getUsers = exports.signin = exports.signup = void 0;
 const userValidation_1 = require("../helpers/userValidation");
 const Users_1 = require("../models/Users");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -43,18 +43,25 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             return res.status(400).json({ message: error.details[0].message });
         }
-        if (value) {
-            const { email, password } = req.body;
-            const result = yield user.login(email, password);
+        const { email, password } = req.body;
+        const result = yield user.login(email, password);
+        if (result) {
             let payload = jsonwebtoken_1.default.sign({ payload: result }, process.env.TOKEN_SECRET, { expiresIn: "30 minutes" });
-            res.status(200).json({ message: "Login successful", token: payload, name: result.name, email: result.email, role: result.role });
+            res.status(200).json({
+                message: "Login successful",
+                token: payload,
+                name: result && result.name,
+                email: result && result.email,
+                role: result && result.role,
+                id: result && result.id
+            });
         }
         else {
             return res.status(400).json({ message: "Invalid login credentials" });
         }
     }
     catch (error) {
-        res.status(500).json({ message: "Something went wrong" });
+        res.json(error);
     }
 });
 exports.signin = signin;
@@ -69,19 +76,31 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
+// Get a single user
+const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield user.getUserById(parseInt(id));
+        return res.json(result);
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Failed to fetch records" });
+    }
+});
+exports.getUserById = getUserById;
 // Delete user
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const result = yield user.deleteUser(id);
-        res
-            .status(201)
-            .json({
-            message: `User ${result.name} has been deleted successfully`,
+        const result = yield user.deleteUser(parseInt(id));
+        res.status(200).json({
+            message: `User has been deleted successfully`,
             data: result,
         });
     }
     catch (error) {
+        console.log(error.message);
         return res.status(400).json({ message: "Something went wrong" });
     }
 });
@@ -89,10 +108,16 @@ exports.deleteUser = deleteUser;
 // Edit user
 const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const { name, email, role } = req.body;
+        const { id, name, email, role } = req.body;
         const result = yield user.editUser(id, name, email, role);
-        res.status(200).json({ data: result });
+        if (result) {
+            return res.status(200).json(result);
+        }
+        else {
+            return res
+                .status(404)
+                .json({ message: "No user found for the operation" });
+        }
     }
     catch (error) {
         return res.status(500).json({ message: "Something went wrong" });

@@ -41,20 +41,16 @@ class UsersModel {
     login(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db_connection = database_1.client.connect();
-                const check_email = `select name, email,role, password from users where email = ($1) `;
-                const query_email = yield (yield db_connection).query(check_email, [email]);
-                if (query_email.rows.length > 0) {
-                    const isMatch = yield bcryptjs_1.default.compare(password, query_email.rows[0].password);
-                    if (isMatch) {
-                        return query_email.rows[0];
-                    }
-                    throw new Error('Invalid credentials supplied');
-                }
-                throw new Error('User not found');
+                const db_connection = yield database_1.client.connect();
+                const check_email = 'select * from users where email = ($1) ';
+                const query_email = yield db_connection.query(check_email, [email]);
+                let query_result = query_email.rows;
+                let isMatch;
+                isMatch = yield bcryptjs_1.default.compare(password, query_email.rows[0].password);
+                return query_result.length === 1 && isMatch === true ? query_result[0] : null;
             }
             catch (error) {
-                throw new Error(error);
+                return error.message;
             }
         });
     }
@@ -62,12 +58,28 @@ class UsersModel {
     getUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db_connection = database_1.client.connect();
+                const db_connection = yield database_1.client.connect();
                 const sql = `SELECT * FROM users`;
-                const query = yield (yield db_connection).query(sql);
+                const query = yield db_connection.query(sql);
                 return query.rows;
             }
             catch (error) {
+                return error;
+            }
+        });
+    }
+    // Get all users
+    getUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(id);
+            try {
+                const db_connection = database_1.client.connect();
+                const sql = `SELECT * FROM users WHERE id = ($1)`;
+                const query = yield (yield db_connection).query(sql, [id]);
+                return query.rows;
+            }
+            catch (error) {
+                console.log(error.message);
                 return error;
             }
         });
@@ -90,13 +102,18 @@ class UsersModel {
     editUser(id, name, email, role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db_connection = database_1.client.connect();
-                const query = `UPDATE users SET name, email, role WHERE id = ($1)`;
-                const sql = yield (yield db_connection).query(query, [id, name, email, role]);
-                if (sql.rows.length > 0) {
-                    return sql.rows[0].id;
+                const db_connection = yield database_1.client.connect();
+                // const query_id = `select * from users where id = ${id}`
+                // const id_result = await db_connection.query(query_id)
+                // if(id_result.rowCount != 0){
+                //     throw new Error("No user found for the operation")
+                // }
+                const query = `UPDATE users SET name = $1, email = $2, role = $3 WHERE id = ${id}`;
+                const result = yield db_connection.query(query, [name, email, role]);
+                if (result.rowCount !== 0) {
+                    return result.rows[0];
                 }
-                return sql.rows[0];
+                return result.rows[0];
             }
             catch (error) {
                 return error;

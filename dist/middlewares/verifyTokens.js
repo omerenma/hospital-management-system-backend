@@ -10,11 +10,12 @@ dotenv_1.default.config();
 const verifyToken = (req, res, next) => {
     try {
         // Get token from headers
-        const token = req.headers['token'];
-        if (!token) {
-            return res.status(401).json({ message: 'You are not authenticated' });
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (!authHeader) {
+            return res.status(401).json({ message: 'You are not authorized' });
         }
-        const verify = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+        const verify = jsonwebtoken_1.default.verify(authHeader, process.env.TOKEN_SECRET);
         req.info = verify;
     }
     catch (error) {

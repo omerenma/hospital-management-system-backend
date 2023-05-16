@@ -14,22 +14,21 @@ const Patient_1 = require("../models/Patient");
 const patientValidation_1 = require("../helpers/patientValidation");
 const patient = new Patient_1.PatientModel();
 const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, residential_address, room_admitted, admission_no, id_no, email, phone_no, next_of_kin_name, next_of_kin_phone_no, status, } = req.body;
+    const { patients_name, dob, sex, residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no, } = req.body;
     const { error, value } = patientValidation_1.patientSchema.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
     const data = {
-        name,
+        patients_name,
+        dob,
+        sex,
         email,
         residential_address,
-        room_admitted,
-        admission_no,
-        id_no,
+        date,
         phone_no,
         next_of_kin_name,
         next_of_kin_phone_no,
-        status,
     };
     try {
         const result = yield patient.addPatient(data);
