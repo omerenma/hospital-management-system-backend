@@ -30,7 +30,7 @@ app.use("/patient", patientRoute);
 app.use("/admission", admission);
 app.use("/doctors", doctorRoute);
 app.use("/book_appointments", bookAppointment);
-const port = 5000
+const port = process.env.PORT || 5000
 app.listen(port, () => {
   console.log(`Express server running on port ${port}`);
 });

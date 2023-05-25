@@ -18,7 +18,7 @@ app.use("/patient", index_1.patientRoute);
 app.use("/admission", index_1.admission);
 app.use("/doctors", index_1.doctorRoute);
 app.use("/book_appointments", index_1.bookAppointment);
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Express server running on port ${port}`);
 });
