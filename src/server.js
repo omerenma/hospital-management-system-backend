@@ -6,14 +6,7 @@ const cors = require("cors");
 const index_1 = require("./routes/index");
 const app = express();
 dotenv.config();
-// client.connect(function(err) {
-//     if (err) {
-//       console.error('Database client failed: ' + err.stack);
-//       return;
-//     }
-//     console.log('Connected to database.');
-//   });
-//   client.end();
+
 app.get("/", (req, res) => {
     res.send("Hello Elastic Bean Stalk");
 });

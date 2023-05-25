@@ -16,16 +16,7 @@ const app: express.Application = express();
 
 dotenv.config();
 
-// client.connect(function(err) {
-//     if (err) {
-//       console.error('Database client failed: ' + err.stack);
-//       return;
-//     }
-  
-//     console.log('Connected to database.');
-//   });
-  
-//   client.end();
+
 
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello Elastic Bean Stalk");
@@ -39,9 +30,9 @@ app.use("/patient", patientRoute);
 app.use("/admission", admission);
 app.use("/doctors", doctorRoute);
 app.use("/book_appointments", bookAppointment);
-
-app.listen(8080, () => {
-  console.log(`Express server running on port 8080`);
+const port = 5000
+app.listen(port, () => {
+  console.log(`Express server running on port ${port}`);
 });
 
 module.exports = app;

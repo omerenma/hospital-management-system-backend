@@ -14,10 +14,10 @@ const {
 } = process.env;
 
 export const client = new Pool({
-  host: process.env.RDS_HOSTNAME ,
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  port: 5432
+//   host: process.env.RDS_HOSTNAME ,
+//   user: process.env.RDS_USERNAME,
+//   password: process.env.RDS_PASSWORD,
+//   port: 5432
 });
 
 // client.connect(function(err) {
