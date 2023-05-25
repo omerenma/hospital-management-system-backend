@@ -12,9 +12,9 @@ export const createAppointment = async (req:Request, res:Response) => {
         }
         const data = { patient_name, doctor_email, date, patient_email};
         const query = await appointment.addAppointment(data);
-        res.status(201).json({ message: `An appointment has been scheduled with ${data.doctor_email} and ${data.patient_name} `, data: query });
+        return res.status(201).json({ message: `An appointment has been scheduled with ${data.doctor_email} and ${data.patient_name} `, data: query });
       } catch (error) {
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
       }
 }
 
@@ -24,7 +24,7 @@ export const getAppointment = async (_req:Request, res:Response) => {
     const response = await appointment.getAppointment()
     return res.status(200).json(response)
   } catch (error) {
-    res.status(500).json({message:"Something went wrong"})
+    return res.status(500).json({message:"Something went wrong"})
   }
 
 }

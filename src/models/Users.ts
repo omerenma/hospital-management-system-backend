@@ -1,6 +1,6 @@
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
-import bcrypt from 'bcryptjs'
+const bcrypt = require('bcryptjs')
 interface User{
     id:string;
     name:string;
@@ -64,7 +64,6 @@ export class UsersModel {
          const query = await (await db_connection).query(sql, [id])
          return query.rows
         } catch (error:any) {
-            console.log(error.message)
          return error
         }
     }

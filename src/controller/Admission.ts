@@ -13,11 +13,11 @@ export const createAdmission = async (req: Request, res: Response) => {
     }
     const data = { patients_id, admission_date, discharged_date };
     const query = await admission.createAdmission(data);
-    res
+   return res
       .status(201)
       .json({ message: `Patient has been admitted `, data: query });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+   return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -27,6 +27,6 @@ export const getAdmission = async (_req: Request, res: Response) => {
     const response = await admission.getAdmission();
     return res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+   return res.status(500).json({ message: "Something went wrong" });
   }
 };

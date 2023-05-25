@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { registerSchema, loginSchema } from "../helpers/userValidation";
 import { UsersModel } from "../models/Users";
-import jwt from "jsonwebtoken";
+const  jwt  = require("jsonwebtoken");
 
 const user = new UsersModel();
 // Add new user
@@ -14,11 +14,11 @@ export const signup = async (req: Request, res: Response) => {
     const { name, email, role, password } = req.body;
     const data = { name, email, role, password };
     const query = await user.addUser(data);
-    res
+    return res
       .status(201)
       .json({ message: "New user registered successfully", data: query.name });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -39,7 +39,7 @@ export const signin = async (req: Request, res: Response) => {
         process.env.TOKEN_SECRET as string,
         { expiresIn: "30 minutes" }
       );
-      res.status(200).json({
+      return res.status(200).json({
         message: "Login successful",
         token: payload,
         name: result && result.name,
@@ -51,7 +51,7 @@ export const signin = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid login credentials" });
     }
   } catch (error) {
-    res.json(error);
+    return res.json(error);
   }
 };
 
@@ -61,7 +61,7 @@ export const getUsers = async (req: Request, res: Response) => {
     const result = await user.getUsers();
     return res.json(result);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch records" });
+    return res.status(500).json({ message: "Failed to fetch records" });
   }
 };
 
@@ -72,8 +72,7 @@ export const getUserById = async (req: Request, res: Response) => {
     const result = await user.getUserById(parseInt(id));
     return res.json(result);
   } catch (error: any) {
-    console.log(error.message);
-    res.status(500).json({ message: "Failed to fetch records" });
+    return res.status(500).json({ message: "Failed to fetch records" });
   }
 };
 
@@ -82,12 +81,11 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await user.deleteUser(parseInt(id));
-    res.status(200).json({
+    return res.status(200).json({
       message: `User has been deleted successfully`,
       data: result,
     });
   } catch (error: any) {
-    console.log(error.message);
     return res.status(400).json({ message: "Something went wrong" });
   }
 };
@@ -113,8 +111,10 @@ export const editUser = async (req: Request, res: Response) => {
 export const getDoctors = async (req: Request, res: Response) => {
   try {
     const result = await user.getDoctors();
-    res.status(200).json(result);
+    return  res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch records" });
+    return res.status(500).json({ message: "Failed to fetch records" });
   }
 };
+
+

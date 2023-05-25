@@ -1,5 +1,5 @@
-import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
+const dotenv = require('dotenv')
+const jwt = require('jsonwebtoken')
 import {Request, Response, NextFunction} from 'express'
 import { Data } from '../interface/Data'
 
@@ -18,7 +18,7 @@ export const verifyToken = (req: Extended, res: Response, next: NextFunction) =>
             return res.status(401).json({message: 'You are not authorized'})
         }
         const verify = jwt.verify(authHeader, process.env.TOKEN_SECRET as string) as Data
-       req.info = verify
+       return req.info = verify
      
 
     } catch (error) {

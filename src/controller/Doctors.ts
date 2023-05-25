@@ -14,9 +14,9 @@ export const createDoctor = async (req: Request, res: Response) => {
     const data = {  name, email, sex, dob, phone_no, specialty };
      await user.addDoctor(data)
   
-    res.status(201).json({ message: "Doctor registered successfully"});
+     return res.status(201).json({ message: "Doctor registered successfully"});
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -28,7 +28,7 @@ export const getDoctors = async (req: Request, res: Response) => {
     const result = await user.getdoctors();
     return res.json(result);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch records" });
+    return res.status(500).json({ message: "Failed to fetch records" });
   }
 };
 
@@ -39,8 +39,7 @@ export const getDocotrById = async (req: Request, res: Response) => {
     const result = await user.getUserById(parseInt(id));
     return res.json(result);
   } catch (error: any) {
-    console.log(error.message);
-    res.status(500).json({ message: "Failed to fetch records" });
+    return res.status(500).json({ message: "Failed to fetch records" });
   }
 };
 
@@ -49,12 +48,11 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await user.deleteDoctor(id);
-    res.status(200).json({
+    return res.status(200).json({
       message: `User has been deleted successfully`,
       data: result,
     });
   } catch (error: any) {
-    console.log(error.message);
     return res.status(400).json({ message: "Something went wrong" });
   }
 };

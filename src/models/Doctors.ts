@@ -1,7 +1,5 @@
-import { date } from 'joi';
 import {client} from '../database/database'
 import { Users, Verify, Login, LoginData } from '../utils/types'
-import bcrypt from 'bcryptjs'
 interface Doctors{
     name:string;
     email:string;
@@ -46,7 +44,6 @@ export class DoctorModel {
                 return doctor_data[0]
             }
         } catch (error:any) {
-            console.log(error, 'is error')
             return error.message
         }
       

@@ -34,11 +34,11 @@ export const createPatient = async (req: Request, res: Response) => {
   };
   try {
     const result = await patient.addPatient(data);
-    res
+    return res
       .status(201)
       .json({ message: "Patient added successfully", data: result });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -47,7 +47,7 @@ export const deletPatient = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await patient.deletePatient(id);
-    res
+    return res
       .status(201)
       .json({ message: "Patient deleted successfully", data: result });
   } catch (error) {
@@ -73,7 +73,7 @@ export const editPatient = async (req: Request, res: Response) => {
 export const getPatients = async (req:Request, res:Response) => {
     try {
         const result = await patient.getPatients()
-        res.status(200).json(result)
+        return res.status(200).json(result)
     } catch (error) {
         return res.status(500).json({error})
     }
@@ -83,7 +83,7 @@ export const getPatientsById = async (req:Request, res:Response) => {
   try {
     const {id} = req.params
       const result = await patient.getPatientsById(id)
-      res.status(200).json({data:result})
+      return  res.status(200).json({data:result})
   } catch (error) {
       return res.status(500).json({error})
   }

@@ -1,5 +1,5 @@
 
-import joi from 'joi'
+const joi = require('joi')
 export const admissionSchema = joi.object(
     {
         admission_date:joi.string().required(),

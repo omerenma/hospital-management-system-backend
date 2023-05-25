@@ -1,4 +1,4 @@
-import joi from 'joi'
+const joi = require('joi')
 export const patientSchema = joi.object(
     {
         patients_name:joi.string().required().min(6),

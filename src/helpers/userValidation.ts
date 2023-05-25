@@ -1,4 +1,4 @@
-import joi from 'joi'
+const joi = require('joi')
 export const registerSchema = joi.object(
     {
         name:joi.string().required(),

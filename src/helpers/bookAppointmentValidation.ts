@@ -1,4 +1,4 @@
-import joi from 'joi'
+const joi = require('joi')
 export const bookAppointmentSchema = joi.object(
     {
         patient_id:joi.string().required(),

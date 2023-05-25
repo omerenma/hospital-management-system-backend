@@ -32,12 +32,11 @@ export const createDiagnosis = async (req: Request, res: Response) => {
       patient_status,
     };
     const query = await diagnosis.addDiagnosis(data);
-    res
+   return res
       .status(201)
       .json({ message: "Diagnosis successfully added", data: query });
   } catch (error:any) {
-    console.log(error.message, 'mesage error')
-    res.status(500).json({ message: "Something went wrong" });
+   return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -71,7 +70,7 @@ export const updeDiagnosis = async (req: Request, res: Response) => {
       treatment_name,
     }
     const result = await diagnosis.updateDiagnosis(data);
-    res.status(200).json({message:"Diagnosis updated successfully", data: result });
+   return res.status(200).json({message:"Diagnosis updated successfully", data: result });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
