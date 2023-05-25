@@ -16,6 +16,15 @@ const app: express.Application = express();
 
 dotenv.config();
 
+client.connect((err) => {
+    if (err) {
+      console.error('Database connection failed: ' + err.stack);
+      return;
+    }
+    console.log('Connected to database.');
+  });
+  
+client.end();
 
 
 app.get("/", (req: express.Request, res: express.Response) => {
