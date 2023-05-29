@@ -4,8 +4,16 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const index_1 = require("./routes/index");
+const database_1 = require("./database/database");
 const app = express();
 dotenv.config();
+database_1.client.connect(function (err) {
+    if (err) {
+        console.error('Database connection failed: ' + err);
+        return;
+    }
+    console.log('Connected to database.');
+});
 app.get("/", (req, res) => {
     res.send("Hello Elastic Bean Stalk");
 });
