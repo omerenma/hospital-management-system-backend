@@ -21,6 +21,15 @@ dotenv.config();
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello Elastic Bean Stalk");
 });
+app.get('/users', (req:express.Request, res:express.Response) => {
+  res.json({
+    message:"Get all users"
+  })
+})
+
+app.get('/users/:id', (req:express.Request, res:express.Response) => {
+  res.send(req.params)
+})
 app.use(express.json());
 app.use(cors());
 app.use("/users", userRoute);
