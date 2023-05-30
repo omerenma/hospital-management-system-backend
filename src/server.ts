@@ -1,6 +1,7 @@
 import express = require("express");
 import dotenv = require("dotenv");
 import cors = require("cors");
+import pg  = require('pg')
 import {
   userRoute,
   appointmentRoute,
@@ -16,7 +17,13 @@ const app: express.Application = express();
 
 dotenv.config();
 
-
+// let connection = new pg.Pool({
+//   host: process.env.RDS_HOSTNAME,
+//   user: process.env.RDS_USERNAME,
+//   database: process.env.RDS_DB_NAME,
+//   password: process.env.RDS_PASSWORD,
+//   port: 5432,
+// })
 
 client.connect(function(err) {
     if (err) {
