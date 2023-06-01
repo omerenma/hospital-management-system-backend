@@ -8,6 +8,8 @@ interface User{
     role:string
 }
 
+
+
 export class UsersModel {
     async addUser(user:Users): Promise<Users> {
         try {

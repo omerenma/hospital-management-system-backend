@@ -7,19 +7,12 @@ const index_1 = require("./routes/index");
 const database_1 = require("./database/database");
 const app = express();
 dotenv.config();
-// let connection = new pg.Pool({
-//   host: process.env.RDS_HOSTNAME,
-//   user: process.env.RDS_USERNAME,
-//   database: process.env.RDS_DB_NAME,
-//   password: process.env.RDS_PASSWORD,
-//   port: 5432,
-// })
-database_1.client.connect(function (err) {
+database_1.client.connect((err) => {
     if (err) {
-        console.error('Database connection failed: ' + err);
+        console.log('Connection error: ', err.message);
         return;
     }
-    console.log('Connected to database.');
+    console.log('DB connection established successfully!');
 });
 app.get("/", (req, res) => {
     res.send("Hello Elastic Bean Stalk");
@@ -41,7 +34,7 @@ app.use("/patient", index_1.patientRoute);
 app.use("/admission", index_1.admission);
 app.use("/doctors", index_1.doctorRoute);
 app.use("/book_appointments", index_1.bookAppointment);
-const port = process.env.PORT || 5000;
+const port = 8081;
 app.listen(port, () => {
     console.log(`Express server running on port ${port}`);
 });

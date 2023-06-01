@@ -6,6 +6,9 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node build/server.js",
+    "dev":"cross-env NODE_ENV=development & nodemon src/server.ts",
+    "prod":"cross-env NODE_ENV=production & build/server.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./build --onSuccess \"node ./build/server.js\"",
     "tsc": "tsc"
   },
@@ -29,9 +32,12 @@
     "express": "^4.18.2",
     "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.3.3",
     "nodemon": "^2.0.22",
     "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
     "postgres": "^3.3.4",
+    "sequelize": "^6.31.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
@@ -41,4 +47,3 @@
     "tsc-watch": "^6.0.4"
   }
 }
-

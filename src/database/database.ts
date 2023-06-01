@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-import { Pool } from "pg";
+import { Pool, Client } from "pg";
 import pg = require('pg')
 
 dotenv.config();
@@ -14,7 +14,10 @@ const {
   ENV,
 } = process.env;
 
-export const client = new pg.Pool({
+
+
+
+export const client = new Pool({
   host:process.env.RDS_HOSTNAME,
   user:process.env.RDS_USERNAME,
   password:process.env.RDS_PASSWORD,
@@ -22,12 +25,6 @@ export const client = new pg.Pool({
   connectionTimeoutMillis:60000
 })
 
-client.connect(err => {
-if(err) {
-console.log(`Database connection failed: ${err.message}`)
-}
-console.log('Database connection extablished successfully')
-})
 
 
 

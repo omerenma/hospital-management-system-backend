@@ -12,27 +12,23 @@ import {
   bookAppointment,
 } from "./routes/index";
 import { client } from "./database/database";
+import { sequelize } from "./database/sequelize";
+
 
 const app: express.Application = express();
 
 dotenv.config();
 
-// let connection = new pg.Pool({
-//   host: process.env.RDS_HOSTNAME,
-//   user: process.env.RDS_USERNAME,
-//   database: process.env.RDS_DB_NAME,
-//   password: process.env.RDS_PASSWORD,
-//   port: 5432,
-// })
+client.connect((err) => {
+  if(err){
+    console.log('Connection error: ', err.message)
+    return
+  }
+  console.log('DB connection established successfully!')
+})
 
-client.connect(function(err) {
-    if (err) {
-      console.error('Database connection failed: ' + err);
-      return;
-    }
-  
-    console.log('Connected to database.');
-  });
+
+ 
 
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello Elastic Bean Stalk");
@@ -55,7 +51,7 @@ app.use("/patient", patientRoute);
 app.use("/admission", admission);
 app.use("/doctors", doctorRoute);
 app.use("/book_appointments", bookAppointment);
-const port = process.env.PORT || 5000
+const port = 8081
 app.listen(port, () => {
   console.log(`Express server running on port ${port}`);
 });
