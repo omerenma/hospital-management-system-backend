@@ -17,6 +17,8 @@ import { sequelize } from "./database/sequelize";
 
 const app: express.Application = express();
 
+app.use(express.json());
+app.use(cors());
 dotenv.config();
 
 client.connect((err) => {
@@ -27,13 +29,12 @@ client.connect((err) => {
   console.log('DB connection established successfully!')
 })
 
-
- 
+client.end()
 
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello Elastic Bean Stalk");
 });
-app.get('/users', (req:express.Request, res:express.Response) => {
+app.get('/user', (req:express.Request, res:express.Response) => {
   res.json({
     message:"Get all users"
   })
@@ -42,8 +43,6 @@ app.get('/users', (req:express.Request, res:express.Response) => {
 app.get('/users/:id', (req:express.Request, res:express.Response) => {
   res.send(req.params)
 })
-app.use(express.json());
-app.use(cors());
 app.use("/users", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/diagnosis", diagnosisRoute);

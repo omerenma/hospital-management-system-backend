@@ -14,6 +14,7 @@ database_1.client.connect((err) => {
     }
     console.log('DB connection established successfully!');
 });
+database_1.client.end();
 app.get("/", (req, res) => {
     res.send("Hello Elastic Bean Stalk");
 });
