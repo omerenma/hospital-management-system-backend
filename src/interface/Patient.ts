@@ -1,9 +1,9 @@
 export interface Patient {
-    patients_name:string;
+    name:string;
     sex:string;
     dob:string;
     residential_address:string; 
-    date:string; 
+    // date:string; 
     email:string; 
     phone_no:string;
     next_of_kin_name:string;

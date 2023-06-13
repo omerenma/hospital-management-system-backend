@@ -4,7 +4,6 @@ CREATE TABLE patients (
     sex VARCHAR(225) NOT NULL,
     dob VARCHAR(225) NOT NULL,
     residential_address VARCHAR(225) NOT NULL,
-    hospital_card_no VARCHAR NOT NULL,
     email VARCHAR(225) NOT NULL,
     phone_no VARCHAR(225) NOT NULL,
     next_of_kin_name VARCHAR(225) NOT NULL,

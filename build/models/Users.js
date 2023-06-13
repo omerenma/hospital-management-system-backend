@@ -16,34 +16,39 @@ class UsersModel {
     addUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db_connection = database_1.client.connect();
+                const db_connection = yield database_1.client.connect();
                 const checkEmail = `SELECT email FROM users WHERE email=($1)`;
-                const query_email = yield (yield db_connection).query(checkEmail, [user.email]);
+                const query_email = yield db_connection.query(checkEmail, [user.email]);
                 if (query_email.rows.length > 0) {
                     throw new Error(`User with email: ${user.email},  already exist.`);
                 }
                 else {
                     const hash = bcrypt.hashSync(user.password, 10);
                     const sql = 'INSERT INTO users (name, email, role, password) VALUES ($1, $2, $3, $4) RETURNING * ';
-                    const result = yield (yield db_connection).query(sql, [user.name, user.email, user.role, hash]);
+                    const result = yield db_connection.query(sql, [user.name, user.email, user.role, hash]);
                     const response = result;
                     return response.rows[0];
                 }
             }
             catch (error) {
-                throw new Error(error);
+                throw new Error(error.message);
             }
         });
     }
     login(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                let isMatch;
                 const db_connection = yield database_1.client.connect();
-                const check_email = 'select * from users where email = ($1) ';
+                const check_email = 'select * from users where email = ($1)';
                 const query_email = yield db_connection.query(check_email, [email]);
                 let query_result = query_email.rows;
-                let isMatch;
-                isMatch = yield bcrypt.compare(password, query_email.rows[0].password);
+                if (query_result.length !== 0) {
+                    isMatch = yield bcrypt.compare(password, query_email.rows[0].password);
+                }
+                if (!isMatch) {
+                    return Promise.reject("Incorrect login credentials");
+                }
                 return query_result.length === 1 && isMatch === true ? query_result[0] : null;
             }
             catch (error) {

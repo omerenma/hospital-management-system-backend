@@ -1,20 +1,19 @@
-import { client } from "../database/database";
+import { client, client_dev } from "../database/database";
 import { Patient, UpdatePatient } from "../interface/Patient";
 
 export class PatientModel {
-  async   addPatient(user: Patient): Promise<{ message: string }> {
+  async addPatient(user: Patient): Promise<{ message: string }> {
     try {
-      const db_connection = client.connect();
+      const db_connection = await client.connect();
       const sql =
-        "INSERT INTO patients (patients_name, sex, dob,residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ";
+        "INSERT INTO patients (name, sex, dob,residential_address , email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ";
       const result = await (
-        await db_connection
+         db_connection
       ).query(sql, [
-        user.patients_name,
+        user.name,
         user.sex,
         user.dob,
         user.residential_address,
-         user.date,
         user.email,
         user.phone_no,
         user.next_of_kin_name,

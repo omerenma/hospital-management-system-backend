@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
-import dotenv from 'dotenv'
+import dotenv = require('dotenv')
+
 dotenv.config()
 
 export const sequelize = new Sequelize(process.env.RDS_USERNAME, process.env.RDS_PASSWORD,{

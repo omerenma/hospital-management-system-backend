@@ -11,15 +11,15 @@ import {
   doctorRoute,
   bookAppointment,
 } from "./routes/index";
-import { client } from "./database/database";
+import { client, client_dev } from "./database/database";
 import { sequelize } from "./database/sequelize";
 
+dotenv.config();
 
 const app: express.Application = express();
 
 app.use(express.json());
 app.use(cors());
-dotenv.config();
 
 client.connect((err) => {
   if(err){
@@ -28,21 +28,13 @@ client.connect((err) => {
   }
   console.log('DB connection established successfully!')
 })
-
-client.end()
+//client_dev.end()
 
 app.get("/", (req: express.Request, res: express.Response) => {
   res.send("Hello Elastic Bean Stalk");
 });
-app.get('/user', (req:express.Request, res:express.Response) => {
-  res.json({
-    message:"Get all users"
-  })
-})
 
-app.get('/users/:id', (req:express.Request, res:express.Response) => {
-  res.send(req.params)
-})
+
 app.use("/users", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/diagnosis", diagnosisRoute);
@@ -50,7 +42,10 @@ app.use("/patient", patientRoute);
 app.use("/admission", admission);
 app.use("/doctors", doctorRoute);
 app.use("/book_appointments", bookAppointment);
-const port = 8081
+app.all("*", (req:express.Request, res:express.Response) => {
+  res.status(404).send('Not Found')
+})
+const port = 5005
 app.listen(port, () => {
   console.log(`Express server running on port ${port}`);
 });

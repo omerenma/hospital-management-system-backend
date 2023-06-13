@@ -21,10 +21,15 @@ export const client = new Pool({
   host:process.env.RDS_HOSTNAME,
   user:process.env.RDS_USERNAME,
   password:process.env.RDS_PASSWORD,
-  port:5432,
-  connectionTimeoutMillis:60000
+  port:5432
 })
 
-
+export const client_dev = new Pool({
+  database: POSTGRES_DB,
+  host:POSTGRES_HOST,
+  user:POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  port:5432
+})
 
 

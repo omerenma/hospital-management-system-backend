@@ -9,15 +9,17 @@ const verifyToken = (req, res, next) => {
         // Get token from headers
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
-        if (!authHeader) {
+        if (!token) {
             return res.status(401).json({ message: 'You are not authorized' });
         }
-        const verify = jwt.verify(authHeader, process.env.TOKEN_SECRET);
-        return req.info = verify;
+        const verify = jwt.verify(token, process.env.TOKEN_SECRET);
+        if (verify) {
+            next();
+            return verify;
+        }
     }
     catch (error) {
-        return res.status(500).json({ error: 'something went wrong' });
+        return res.status(500).json({ message: error.message });
     }
-    next();
 };
 exports.verifyToken = verifyToken;

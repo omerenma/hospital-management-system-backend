@@ -3,9 +3,9 @@ import { createPatient, editPatient, deletPatient, getPatients} from '../control
 import { verifyToken } from '../middlewares/verifyTokens'
 
 const router = Router()
-router.get('/', getPatients)
+router.get('/', verifyToken, getPatients)
 router.get('/patient/:id', verifyToken, getPatients)
-router.post('/add', createPatient)
+router.post('/add', verifyToken, createPatient)
 router.put('/patient/:id', verifyToken ,editPatient)
 router.delete('/patient/:id', verifyToken, deletPatient)
 

@@ -17,8 +17,8 @@ export const signup = async (req: Request, res: Response) => {
     return res
       .status(201)
       .json({ message: "New user registered successfully", data: query.name });
-  } catch (error) {
-    return res.status(500).json({ message: "Something went wrong" });
+  } catch (error:any) {
+    return res.json({message:error.message});
   }
 };
 
@@ -51,7 +51,7 @@ export const signin = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid login credentials" });
     }
   } catch (error) {
-    return res.json(error);
+    return res.json({message:error});
   }
 };
 

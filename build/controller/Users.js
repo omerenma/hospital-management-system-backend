@@ -29,7 +29,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .json({ message: "New user registered successfully", data: query.name });
     }
     catch (error) {
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.json({ message: error.message });
     }
 });
 exports.signup = signup;
@@ -58,7 +58,7 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (error) {
-        return res.json(error);
+        return res.json({ message: error });
     }
 });
 exports.signin = signin;

@@ -1,10 +1,9 @@
 const joi = require('joi')
 export const patientSchema = joi.object(
     {
-        patients_name:joi.string().required().min(6),
+        name:joi.string().required(),
         sex:joi.string().required(),
         dob:joi.string().required(),
-        date:joi.string().required(),
         email:joi.string().required().email(),
         residential_address: joi.string().required(),
         phone_no:joi.string().required(),

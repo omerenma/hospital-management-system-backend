@@ -14,30 +14,18 @@ const Patient_1 = require("../models/Patient");
 const patientValidation_1 = require("../helpers/patientValidation");
 const patient = new Patient_1.PatientModel();
 const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { patients_name, dob, sex, residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no, } = req.body;
-    const { error, value } = patientValidation_1.patientSchema.validate(req.body);
-    if (error) {
-        return res.status(400).json({ message: error.details[0].message });
-    }
-    const data = {
-        patients_name,
-        dob,
-        sex,
-        email,
-        residential_address,
-        date,
-        phone_no,
-        next_of_kin_name,
-        next_of_kin_phone_no,
-    };
     try {
+        const { error, value } = patientValidation_1.patientSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+        const { name, dob, sex, residential_address, email, phone_no, next_of_kin_name, next_of_kin_phone_no } = req.body;
+        const data = { name, dob, sex, email, residential_address, phone_no, next_of_kin_name, next_of_kin_phone_no, };
         const result = yield patient.addPatient(data);
-        return res
-            .status(201)
-            .json({ message: "Patient added successfully", data: result });
+        return res.status(201).json({ message: "Patient added successfully", data: result });
     }
     catch (error) {
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.json({ message: error.message });
     }
 });
 exports.createPatient = createPatient;

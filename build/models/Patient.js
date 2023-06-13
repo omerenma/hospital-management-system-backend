@@ -15,14 +15,13 @@ class PatientModel {
     addPatient(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db_connection = database_1.client.connect();
-                const sql = "INSERT INTO patients (patients_name, sex, dob,residential_address, date, email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING * ";
-                const result = yield (yield db_connection).query(sql, [
-                    user.patients_name,
+                const db_connection = yield database_1.client.connect();
+                const sql = "INSERT INTO patients (name, sex, dob,residential_address , email, phone_no, next_of_kin_name, next_of_kin_phone_no) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING * ";
+                const result = yield (db_connection).query(sql, [
+                    user.name,
                     user.sex,
                     user.dob,
                     user.residential_address,
-                    user.date,
                     user.email,
                     user.phone_no,
                     user.next_of_kin_name,
